@@ -46,7 +46,7 @@ echo "yum出错，请更换源重新运行"
 exit 1
 }
 
-echo "Install Docker"
+echo "Install-Docker"
 {
     yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
     rpm --import https://mirrors.aliyun.com/docker-ce/linux/centos/gpg
@@ -56,7 +56,7 @@ echo "repo出错，请更换源重新运行"
 exit 1
 }
 
-echo "speed Docker"
+echo "speed-Docker"
 {
 mkdir -p /etc/docker/
 cat >> /etc/docker/daemon.json <<EOF
@@ -69,7 +69,7 @@ EOF
 echo "docker，加速已存在"
 exit 1
 }
-echo "service Docker"
+echo "start-Docker"
 {
     systemctl start docker
     systemctl enable docker
@@ -81,13 +81,13 @@ echo "status Docker"
 {
     which docker >/dev/null 2>&1
     if [ $? -ne 0 ];then
-        install_docker
+       Install-Docker
     fi
     if [ ! -f "/etc/docker/daemon.json" ]; then
-        config_docker
+       speed-Docker
     fi
     if [ ! "$(systemctl status docker | grep Active | grep running)" ]; then
-        start_docker
+       start-Docker
     fi
 }|| {
 echo "docker，服务未运行"
