@@ -77,3 +77,13 @@
         firewall-cmd --zone=public --add-port=443/tcp --permanent
         firewall-cmd --reload
     fi
+#ntp
+echo "server ntp.aliyun.com iburst" >> /etc/chrony.conf
+echo "service chrony"
+{
+    systemctl restart chronyd
+    systemctl enable chronyd
+}|| {
+echo "chrony，启动失败"
+exit 1
+}
