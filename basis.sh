@@ -120,6 +120,10 @@ fi
     if [ $? -ne 0 ];then
         yum install -y lrzsz
     fi
+    which net-tools >/dev/null 2>&1
+    if [ $? -ne 0 ];then
+        yum install -y net-tools
+    fi
 # 禁用selinux
     sed -i 's/SELINUX=.*/SELINUX=permissive/g' /etc/selinux/config
     setenforce 0
