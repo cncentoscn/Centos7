@@ -4,7 +4,7 @@
 # Gmail: lucky@centoscn.vip
 # blog:  www.centoscn.vip
 #安装基础依赖
-     which wget >/dev/null 2>&1
+    which wget >/dev/null 2>&1
     if [ $? -ne 0 ];then
         yum install -y wget
     fi
@@ -56,4 +56,24 @@
     which lrzsz >/dev/null 2>&1
     if [ $? -ne 0 ];then
         yum install -y lrzsz
+    fi
+# 禁用selinux
+    sed -i 's/SELINUX=.*/SELINUX=permissive/g' /etc/selinux/config
+    setenforce 0
+#firewall
+    if [ ! "$(firewall-cmd --list-all | grep 80)" ]; then
+    firewall-cmd --zone=public --add-port=80/tcp --permanent
+    firewall-cmd --reload
+    fi
+    if [ ! "$(firewall-cmd --list-all | grep 22)" ]; then
+        firewall-cmd --zone=public --add-port=22/tcp --permanent
+        firewall-cmd --reload
+    fi
+    if [ ! "$(firewall-cmd --list-all | grep 3306)" ]; then
+        firewall-cmd --zone=public --add-port=3306/tcp --permanent
+        firewall-cmd --reload
+    fi
+    if [ ! "$(firewall-cmd --list-all | grep 443)" ]; then
+        firewall-cmd --zone=public --add-port=443/tcp --permanent
+        firewall-cmd --reload
     fi
