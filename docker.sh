@@ -12,7 +12,6 @@ else
   echo -e "[\033[31m ERROR \033[0m] 请用 root 用户执行安装脚本"
   flag=1
 fi
-
 #操作系统检测
 echo -ne "CentOS7 Check \t........................ "
 if [ -f /etc/redhat-release ];then
